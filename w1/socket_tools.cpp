@@ -52,7 +52,7 @@ int create_dgram_socket(const char *address, const char *port, addrinfo *res_add
 
   addrinfo *result = nullptr;
   if (getaddrinfo(address, port, &hints, &result) != 0)
-    return 1;
+    return -1;
 
   int sfd = get_dgram_socket(result, isListener, res_addr);
 

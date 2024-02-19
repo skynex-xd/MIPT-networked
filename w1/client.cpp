@@ -9,10 +9,10 @@
 
 int main(int argc, const char **argv)
 {
-  const char *port = "2022";
+  const char *port = "2024";
 
   addrinfo resAddrInfo;
-  int sfd = create_dgram_socket("localhost", port, &resAddrInfo);
+  int sfd = create_dgram_socket("google.com", port, &resAddrInfo);
 
   if (sfd == -1)
   {

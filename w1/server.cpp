@@ -9,12 +9,15 @@
 
 int main(int argc, const char **argv)
 {
-  const char *port = "2022";
+  const char *port = "2024";
 
   int sfd = create_dgram_socket(nullptr, port, nullptr);
 
   if (sfd == -1)
+  {
+    printf("cannot create socket\n");
     return 1;
+  }
   printf("listening!\n");
 
   while (true)

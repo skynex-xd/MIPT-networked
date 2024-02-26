@@ -1,3 +1,4 @@
+#include "raylib.h"
 #include <enet/enet.h>
 #include <iostream>
 
@@ -27,6 +28,21 @@ void send_micro_packet(ENetPeer *peer)
 
 int main(int argc, const char **argv)
 {
+  int width = 800;
+  int height = 600;
+  InitWindow(width, height, "w6 AI MIPT");
+
+  const int scrWidth = GetMonitorWidth(0);
+  const int scrHeight = GetMonitorHeight(0);
+  if (scrWidth < width || scrHeight < height)
+  {
+    width = std::min(scrWidth, width);
+    height = std::min(scrHeight - 150, height);
+    SetWindowSize(width, height);
+  }
+
+  SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
+
   if (enet_initialize() != 0)
   {
     printf("Cannot init ENet");
@@ -55,7 +71,7 @@ int main(int argc, const char **argv)
   uint32_t lastFragmentedSendTime = timeStart;
   uint32_t lastMicroSendTime = timeStart;
   bool connected = false;
-  while (true)
+  while (!WindowShouldClose())
   {
     ENetEvent event;
     while (enet_host_service(client, &event, 10) > 0)
@@ -88,6 +104,11 @@ int main(int argc, const char **argv)
         send_micro_packet(lobbyPeer);
       }
     }
+    BeginDrawing();
+      ClearBackground(BLACK);
+      DrawText(TextFormat("Current status: %s", "unknown"), 20, 20, 20, WHITE);
+      DrawText("List of players:", 20, 40, 20, WHITE);
+    EndDrawing();
   }
   return 0;
 }

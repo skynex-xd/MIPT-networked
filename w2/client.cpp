@@ -71,8 +71,11 @@ int main(int argc, const char **argv)
   uint32_t lastFragmentedSendTime = timeStart;
   uint32_t lastMicroSendTime = timeStart;
   bool connected = false;
+  float posx = 0.f;
+  float posy = 0.f;
   while (!WindowShouldClose())
   {
+    const float dt = GetFrameTime();
     ENetEvent event;
     while (enet_host_service(client, &event, 10) > 0)
     {
@@ -104,10 +107,19 @@ int main(int argc, const char **argv)
         send_micro_packet(lobbyPeer);
       }
     }
+    bool left = IsKeyDown(KEY_LEFT);
+    bool right = IsKeyDown(KEY_RIGHT);
+    bool up = IsKeyDown(KEY_UP);
+    bool down = IsKeyDown(KEY_DOWN);
+    constexpr float spd = 10.f;
+    posx += ((left ? -1.f : 0.f) + (right ? 1.f : 0.f)) * dt * spd;
+    posy += ((up ? -1.f : 0.f) + (down ? 1.f : 0.f)) * dt * spd;
+
     BeginDrawing();
       ClearBackground(BLACK);
       DrawText(TextFormat("Current status: %s", "unknown"), 20, 20, 20, WHITE);
-      DrawText("List of players:", 20, 40, 20, WHITE);
+      DrawText(TextFormat("My position: (%d, %d)", (int)posx, (int)posy), 20, 40, 20, WHITE);
+      DrawText("List of players:", 20, 60, 20, WHITE);
     EndDrawing();
   }
   return 0;

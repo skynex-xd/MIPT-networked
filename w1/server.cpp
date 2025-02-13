@@ -1,6 +1,7 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <sys/select.h>
+#include <arpa/inet.h>
 #include <netdb.h>
 #include <cstring>
 #include <cstdio>
@@ -9,7 +10,7 @@
 
 int main(int argc, const char **argv)
 {
-  const char *port = "2024";
+  const char *port = "2025";
 
   int sfd = create_dgram_socket(nullptr, port, nullptr);
 
@@ -36,9 +37,13 @@ int main(int argc, const char **argv)
       static char buffer[buf_size];
       memset(buffer, 0, buf_size);
 
-      ssize_t numBytes = recvfrom(sfd, buffer, buf_size - 1, 0, nullptr, nullptr);
+      sockaddr_in sin;
+      socklen_t slen = sizeof(sockaddr_in);
+      ssize_t numBytes = recvfrom(sfd, buffer, buf_size - 1, 0, (sockaddr*)&sin, &slen);
       if (numBytes > 0)
-        printf("%s\n", buffer); // assume that buffer is a string
+      {
+        printf("(%s:%d) %s\n", inet_ntoa(sin.sin_addr), sin.sin_port, buffer); // assume that buffer is a string
+      }
     }
   }
   return 0;

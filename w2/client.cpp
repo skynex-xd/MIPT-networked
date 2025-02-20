@@ -30,7 +30,7 @@ int main(int argc, const char **argv)
 {
   int width = 800;
   int height = 600;
-  InitWindow(width, height, "w6 AI MIPT");
+  InitWindow(width, height, "w2 MIPT networked");
 
   const int scrWidth = GetMonitorWidth(0);
   const int scrHeight = GetMonitorHeight(0);

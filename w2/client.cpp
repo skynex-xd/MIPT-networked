@@ -71,8 +71,8 @@ int main(int argc, const char **argv)
   uint32_t lastFragmentedSendTime = timeStart;
   uint32_t lastMicroSendTime = timeStart;
   bool connected = false;
-  float posx = 150.f;
-  float posy = 150.f;
+  float posx = GetRandomValue(100, 1000);
+  float posy = GetRandomValue(100, 500);
   float velx = 0.f;
   float vely = 0.f;
   while (!WindowShouldClose())

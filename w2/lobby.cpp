@@ -23,15 +23,13 @@ int main(int argc, const char **argv)
   ENetAddress address;
   address.host = ENET_HOST_ANY;
   address.port = 10887;
-  
   ENetHost *server = enet_host_create(&address, 32, 2, 0, 0);
-  
+
   if (!server) 
   {
     printf("Cannot create ENet lobby server\n");
     return 1;
   }
-  
   printf("Lobby server started on port %d\n", address.port);
   
   GameServerInfo gameServer;
@@ -45,9 +43,8 @@ int main(int argc, const char **argv)
     gameServer.port = std::atoi(argv[2]);
   }
   printf("Game server will be at %s:%d\n", gameServer.host.c_str(), gameServer.port);
-  
   std::vector<ENetPeer*> connectedPeers;
-  
+
   while (true) 
   {
     ENetEvent event;
